@@ -66,7 +66,7 @@ html {font-family: Source Sans Pro,sans-serif; font-size: 14pt; font-weight: 300
 body {background: #333; margin: 1em;}
 a {color: #fff;}
 
-/* #wrapper = flexcontainer: column for header, main, nav */
+/* #wrapper = flexcontainer: column for header, #content */
 /* 90vh = 90% viewport height, 90vw = 90% viewport width */
 #wrapper {margin: 0 auto; width: 90vw; max-width: 1200px; 
     display: flex;
@@ -76,35 +76,60 @@ a {color: #fff;}
 }
 
 /* header = flexcontainer: row for 3 divs */
-header {display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: center; padding: 1rem;}
+header {display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: center; padding: 1rem 0;}
 
 /* header #lang = flexcontainer: row for 2 img */
-header #lang {flex-grow: 0; display: flex; flex-flow: row nowrap; justify-content: center; align-items: center;}
-header #lang a {margin-right: 0.1rem;}
+header #lang {flex: 0 1 auto; display: flex; flex-flow: row nowrap; justify-content: center; align-items: center; line-height: 0;}
+header #lang a img {padding: 0.2rem;}
 header #sep {flex-grow: 1; height:1px; background-color: #fff;}
 header #logo {flex-grow: 0; background-image: url(../assets/img/passbild.jpg); background-repeat: no-repeat; background-position: center center;
     background-size: cover; width: 140px; height: 140px; border-radius: 75px;}
 
-main {padding: 1em; box-shadow: 3px 3px 1px #222;}
+/* flexes nav + main in a row */
+#content {display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: flex-start; gap: 2rem;}
+
+main {flex: 6; padding: 1em; box-shadow: 3px 3px 1px #222;}
 main article h3 {text-transform: uppercase; font-size: 2rem; font-weight: 300; font-stretch: expanded; margin-bottom: 2rem; text-align: center;}
 
 /* nav ul = flexcontainer: row for li elements */
-nav {margin-top: 1rem;}
-nav ul {display: flex; flex-flow: row nowrap; justify-content: center; align-items: center; list-style: none;}
-nav ul li {margin: 1rem; border: 2px inset #fff; border-radius: 5px; padding: 0.2rem 0.5rem;}
-nav ul li:hover {background-color: #fff;}
-nav ul li:hover a {color: #222;}
+nav {flex: 1;}
+nav ul {display: flex; flex-flow: column nowrap; justify-content: space-around; list-style: none;}
+nav ul li {margin: 0.5rem 0; border: 2px inset #fff; border-radius: 5px; padding: 0.1rem 0.5rem;}
+nav ul li:hover {background-color: #555;}
+nav ul li:hover a { text-shadow: 2px 2px #333;}
 nav ul li a {font-size: 0.8rem; text-decoration: none;}
-nav ul li.active {padding: 0.5rem 0.8rem; background-color: #222;}
+nav ul li.active {background-color: #222;}
 nav ul li.active a {color: #fff;}
 
+/* Hamburger menu */
+/* Placeholder */
+nav .menu-icon {cursor: pointer; display: none; padding: 10px 20px; position: relative; user-select: none;}
+/* One Hamburger line */
+nav .menu-icon .navicon { background: #eee; display: block; height: 2px; position: relative; transition: background .2s ease-out; width: 18px;}
+/* Two other Hamburger lines */
+nav .menu-icon .navicon:before, nav .menu-icon .navicon:after {background: #eee; content: ''; display: block; height: 100%; position: absolute; 
+    transition: all .2s ease-out;  width: 100%;}
+nav .menu-icon .navicon:before {top: 5px;}
+nav .menu-icon .navicon:after {top: -5px;}
+/* menu btn is invisible checkbox for checking */
+nav .menu-btn {display: none;}
+nav .menu-btn:checked ~ ul {display: block;}
+/* if checked the lines become a half cross */
+nav .menu-btn:checked ~ .menu-icon .navicon {background: transparent;}
+nav .menu-btn:checked ~ .menu-icon .navicon:before {transform: rotate(-45deg);}
+nav .menu-btn:checked ~ .menu-icon .navicon:after {transform: rotate(45deg);}
+/* now 2 half crosses */
+nav .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before, nav .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {top: 0;}
+
 @media screen and (max-width: 680px) {
-	html {font-size: 12pt;}
+    html {font-size: 12pt;}
 	body {margin:0.5rem;}
-	nav {order: 1; margin-top: 0; border-bottom: 1px solid #fff;}
-    nav ul {justify-content: space-evenly;}
-	header {order: 2;}
-    header #lang {flex-flow: column nowrap;}
-    header #lang img {margin-bottom: 0.1rem;}
-    main {order: 3;}
+    header {flex-flow: column nowrap; align-items: flex-end;}
+    header #logo {display: none; }
+    #content {flex-flow: column nowrap; gap: 0.2rem; margin-top: -2.5rem;}
+    main article {width: 100%; margin: 0.5rem 0;}
+    nav {width: 100%;}
+    nav ul {display: none;}
+    nav ul li {border: 1px solid #fff; border-radius: 3px; padding: 0.2rem 1.5rem; display: block;}
+    nav .menu-icon {display: inline-block;}
 }
